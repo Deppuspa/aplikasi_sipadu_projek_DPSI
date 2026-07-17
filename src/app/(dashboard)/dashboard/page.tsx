@@ -9,6 +9,7 @@ import {
 } from '@/lib/mock-data';
 import { getHariName, formatDateShort, type User } from '@/lib/types';
 import { BookOpen, Users, Calendar, FileText, CheckCircle, AlertTriangle, Trash2 } from 'lucide-react';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 function StatCard({ icon: Icon, label, value, color, detail }: {
@@ -155,10 +156,10 @@ function GuruDashboard({ user, hariIni }: { user: User & { role: 'guru_mapel' };
                       <td className="py-2 pr-3">{k?.namaKelas || '-'}</td>
                       <td className="py-2 pr-3">{j.mataPelajaran}</td>
                       <td className="py-2">
-                        <button onClick={() => window.location.href = '/presensi'}
-                          className="px-3 py-1.5 text-xs font-medium rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer">
+                        <Link href="/presensi"
+                          className="inline-block px-3 py-1.5 text-xs font-medium rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer">
                           Buka Presensi
-                        </button>
+                        </Link>
                       </td>
                     </tr>
                   );
@@ -235,8 +236,8 @@ function AdminDashboard({ user: _user }: { user: User & { role: 'admin' } }) {
   const izinMenunggu = izinList.filter(i => i.statusIzin === 'menunggu').length;
   const totalJadwal = jadwalList.length;
 
-  function handleReset() {
-    resetAllData();
+  async function handleReset() {
+    await resetAllData();
     setConfirmReset(false);
     router.refresh();
   }
@@ -302,10 +303,10 @@ function QuickLink({ href, label, color }: { href: string; label: string; color:
     green: 'bg-green-50 text-green-700 hover:bg-green-100',
   };
   return (
-    <button onClick={() => window.location.href = href}
-      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${colors[color] || colors.blue}`}>
+    <Link href={href}
+      className={`inline-block px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${colors[color] || colors.blue}`}>
       {label}
-    </button>
+    </Link>
   );
 }
 

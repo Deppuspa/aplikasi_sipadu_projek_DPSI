@@ -47,20 +47,20 @@ export default function JadwalPage() {
     setShowModal(true);
   }
 
-  function handleSave(e: React.FormEvent) {
+  async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     if (!form.idKelas || !form.idGuru || !form.jamMulai || !form.jamSelesai || !form.mataPelajaran) return;
     if (editId) {
-      updateJadwal(editId, form);
+      await updateJadwal(editId, form);
     } else {
-      addJadwal(form);
+      await addJadwal(form);
     }
     setShowModal(false);
   }
 
-  function handleDelete(id: string) {
+  async function handleDelete(id: string) {
     if (!confirm('Hapus jadwal ini?')) return;
-    deleteJadwal(id);
+    await deleteJadwal(id);
   }
 
   const filteredGuru = guruList.filter(g => g.role === 'guru_mapel' || g.role === 'keduanya');

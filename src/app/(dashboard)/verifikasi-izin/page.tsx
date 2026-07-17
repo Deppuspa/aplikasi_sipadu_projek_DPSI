@@ -32,8 +32,8 @@ export default function VerifikasiIzinPage() {
     dataIzin = dataIzin.filter(i => i.statusIzin === filterStatus);
   }
 
-  function handleSetStatus(idIzin: string, status: 'disetujui' | 'ditolak') {
-    updateStatusIzin(idIzin, status);
+  async function handleSetStatus(idIzin: string, status: 'disetujui' | 'ditolak') {
+    await updateStatusIzin(idIzin, status);
     setRefreshKey(k => k + 1);
   }
 

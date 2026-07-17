@@ -53,7 +53,7 @@ export default function RegisterPage() {
   const [adminNama, setAdminNama] = useState('');
   const [adminUsername, setAdminUsername] = useState('');
 
-  function handleRegister(e: React.FormEvent) {
+  async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
     setRegError('');
     clearError();
@@ -81,10 +81,8 @@ export default function RegisterPage() {
       data = { ...base, namaAdmin: adminNama, username: adminUsername || regEmail.split('@')[0] };
     }
 
-    const result = register(data as never);
-    if (result.success) {
-      router.push('/dashboard');
-    } else {
+    const result = await register(data as never);
+    if (!result.success) {
       setRegError(result.error || 'Gagal mendaftarkan akun. Silakan coba lagi.');
     }
   }
@@ -187,10 +185,12 @@ export default function RegisterPage() {
                 </div>
               )}
               <div>
-                <label className="block text-sm font-medium mb-1">ID Kelas (opsional)</label>
-                <input type="text" value={guruKelas} onChange={e => setGuruKelas(e.target.value)}
-                  placeholder={regRole === 'wali_kelas' ? 'Kelas binaan, contoh: KLS01' : 'Kelas diampu (opsional)'}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" />
+                <label className="block text-sm font-medium mb-1">{regRole === 'wali_kelas' ? 'Kelas Binaan' : 'Kelas Diampu (opsional)'}</label>
+                <select value={guruKelas} onChange={e => setGuruKelas(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                  <option value="">— Pilih Kelas —</option>
+                  {kelasList.map(k => <option key={k.idKelas} value={k.idKelas}>{k.namaKelas}</option>)}
+                </select>
               </div>
             </>
           )}

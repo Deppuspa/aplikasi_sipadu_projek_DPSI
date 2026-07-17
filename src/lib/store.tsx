@@ -20,11 +20,13 @@ interface RegisterData {
 
 interface AppState {
   user: User | null;
-  login: (email: string, password: string) => boolean;
-  register: (data: RegisterData) => { success: boolean; error?: string };
+  login: (email: string, password: string) => Promise<boolean>;
+  register: (data: RegisterData) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
   error: string;
   clearError: () => void;
+  refreshKey: number;
+  refreshData: () => void;
 }
 
 const AppContext = createContext<AppState | null>(null);
@@ -32,26 +34,31 @@ const AppContext = createContext<AppState | null>(null);
 export function AppProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState('');
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  useEffect(() => {
-    initMockData();
+  const refreshData = useCallback(() => {
+    setRefreshKey(k => k + 1);
   }, []);
 
-  const login = useCallback((email: string, password: string): boolean => {
-    const u = authenticate(email, password);
+  useEffect(() => {
+    initMockData().then(refreshData);
+  }, [refreshData]);
+
+  const login = useCallback(async (email: string, password: string): Promise<boolean> => {
+    const u = await authenticate(email, password);
     if (u) { setUser(u); setError(''); return true; }
     setError('Email atau password salah.');
     return false;
   }, []);
 
-  const register = useCallback((data: RegisterData): { success: boolean; error?: string } => {
-    const u = registerAccount(data);
-    if (u) {
-      setUser(u);
+  const register = useCallback(async (data: RegisterData): Promise<{ success: boolean; error?: string }> => {
+    const result = await registerAccount(data);
+    if (result.user) {
+      setUser(result.user);
       setError('');
       return { success: true };
     }
-    const err = 'Email sudah terdaftar. Gunakan email lain.';
+    const err = result.error || 'Email sudah terdaftar. Gunakan email lain.';
     setError(err);
     return { success: false, error: err };
   }, []);
@@ -65,7 +72,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AppContext.Provider value={{ user, login, register, logout, error, clearError }}>
+    <AppContext.Provider value={{ user, login, register, logout, error, clearError, refreshKey, refreshData }}>
       {children}
     </AppContext.Provider>
   );

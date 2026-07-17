@@ -15,13 +15,11 @@ export default function LoginPage() {
     if (user) router.push('/dashboard');
   }, [user, router]);
 
-  function handleLogin(e: React.FormEvent) {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     clearError();
     if (!email || !password) return;
-    if (login(email, password)) {
-      router.push('/dashboard');
-    }
+    await login(email, password);
   }
 
   return (
@@ -72,10 +70,11 @@ export default function LoginPage() {
 
         <div className="mt-4 p-3 rounded-lg bg-blue-50 border border-blue-200 text-xs text-blue-700">
           <strong>Akun Demo:</strong><br />
-          Siswa: budi@siswa.sch.id / siswa123<br />
-          Guru: siti.rahma@guru.sch.id / guru123<br />
+          Siswa: ahmad.fauzi@siswa.sch.id / siswa123 (VII A)<br />
+          Guru Mapel: siti.rahma@guru.sch.id / guru123<br />
           Wali Kelas: ahmad.hidayat@guru.sch.id / guru123<br />
-          Admin: dewi.sartika@admin.sch.id / admin123
+          Admin BK: dewi.sartika@admin.sch.id / admin123<br />
+          <span className="text-[10px]">(27 siswa &middot; 8 guru &middot; semua password tercantum di schema)</span>
         </div>
       </div>
     </div>

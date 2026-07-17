@@ -30,8 +30,8 @@ export default function KehadiranPage() {
 
   const isAdmin = user.role === 'admin';
 
-  function handleTogglePresensi(idPresensi: string) {
-    togglePresensiStatus(idPresensi);
+  async function handleTogglePresensi(idPresensi: string) {
+    await togglePresensiStatus(idPresensi);
     setRefreshKey(k => k + 1);
   }
 

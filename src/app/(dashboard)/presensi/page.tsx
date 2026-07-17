@@ -18,7 +18,7 @@ export default function PresensiPage() {
   const [step, setStep] = useState<'select' | 'presensi'>('select');
   const [selectedJadwal, setSelectedJadwal] = useState<string | null>(null);
   const [presensiData, setPresensiData] = useState<Record<string, boolean>>({});
-  const [hariFilter, setHariFilter] = useState(getHariName(new Date()));
+  const [hariFilter, setHariFilter] = useState('Semua');
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function PresensiPage() {
   const u = user;
 
   const jadwalTersedia = getJadwalByGuru(u.idGuru);
-  const jadwalFiltered = jadwalTersedia.filter(j => j.hari === hariFilter);
+  const jadwalFiltered = hariFilter === 'Semua' ? jadwalTersedia : jadwalTersedia.filter(j => j.hari === hariFilter);
 
   function mulaiPresensi(idJadwal: string) {
     const j = jadwalList.find(x => x.idJadwal === idJadwal);
@@ -62,9 +62,9 @@ export default function PresensiPage() {
     setPresensiData(newData);
   }
 
-  function simpanPresensi() {
+  async function simpanPresensi() {
     if (!selectedJadwal) return;
-    addPresensi(selectedJadwal, u.idGuru, todayStr(), presensiData);
+    await addPresensi(selectedJadwal, u.idGuru, todayStr(), presensiData);
     setSaved(true);
   }
 
@@ -147,6 +147,7 @@ export default function PresensiPage() {
           <label className="block text-xs font-medium text-gray-500 mb-1">Filter Hari</label>
           <select value={hariFilter} onChange={e => setHariFilter(e.target.value)}
             className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm">
+            <option value="Semua">Semua Hari</option>
             {HARI_LIST.map(h => <option key={h} value={h}>{h}</option>)}
           </select>
         </div>

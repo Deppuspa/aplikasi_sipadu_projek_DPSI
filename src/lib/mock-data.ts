@@ -117,7 +117,47 @@ export interface RegisteredAccount {
   role: User['role'];
   refId: string;
 }
-export let registeredAccounts: RegisteredAccount[] = [];
+export let registeredAccounts: RegisteredAccount[] = [
+  // Siswa (password: siswa123)
+  { email: 'ahmad.fauzi@siswa.sch.id',      password: 'siswa123', role: 'siswa', refId: '2001' },
+  { email: 'siti.nurhaliza@siswa.sch.id',   password: 'siswa123', role: 'siswa', refId: '2002' },
+  { email: 'dimas.ardiansyah@siswa.sch.id', password: 'siswa123', role: 'siswa', refId: '2003' },
+  { email: 'putri.wulandari@siswa.sch.id',  password: 'siswa123', role: 'siswa', refId: '2004' },
+  { email: 'rizky.pratama@siswa.sch.id',    password: 'siswa123', role: 'siswa', refId: '2005' },
+  { email: 'nanda.safira@siswa.sch.id',     password: 'siswa123', role: 'siswa', refId: '2006' },
+  { email: 'andika.pramudya@siswa.sch.id',  password: 'siswa123', role: 'siswa', refId: '2007' },
+  { email: 'fitriani.ramadhani@siswa.sch.id',password: 'siswa123', role: 'siswa', refId: '2008' },
+  { email: 'gilang.permana@siswa.sch.id',   password: 'siswa123', role: 'siswa', refId: '2009' },
+  { email: 'intan.permata@siswa.sch.id',    password: 'siswa123', role: 'siswa', refId: '2010' },
+  { email: 'joko.susilo@siswa.sch.id',      password: 'siswa123', role: 'siswa', refId: '2011' },
+  { email: 'kartika.dewi@siswa.sch.id',     password: 'siswa123', role: 'siswa', refId: '2012' },
+  { email: 'lestari.handayani@siswa.sch.id',password: 'siswa123', role: 'siswa', refId: '2013' },
+  { email: 'maulana.ibrahim@siswa.sch.id',  password: 'siswa123', role: 'siswa', refId: '2014' },
+  { email: 'nindy.ayu@siswa.sch.id',        password: 'siswa123', role: 'siswa', refId: '2015' },
+  { email: 'oka.saputra@siswa.sch.id',      password: 'siswa123', role: 'siswa', refId: '2016' },
+  { email: 'putu.widiastuti@siswa.sch.id',  password: 'siswa123', role: 'siswa', refId: '2017' },
+  { email: 'raka.prasetya@siswa.sch.id',    password: 'siswa123', role: 'siswa', refId: '2018' },
+  { email: 'ratna.sari@siswa.sch.id',       password: 'siswa123', role: 'siswa', refId: '2019' },
+  { email: 'sandi.maulana@siswa.sch.id',    password: 'siswa123', role: 'siswa', refId: '2020' },
+  { email: 'tari.lestari@siswa.sch.id',     password: 'siswa123', role: 'siswa', refId: '2021' },
+  { email: 'ujang.kosasih@siswa.sch.id',    password: 'siswa123', role: 'siswa', refId: '2022' },
+  { email: 'vina.amalia@siswa.sch.id',      password: 'siswa123', role: 'siswa', refId: '2023' },
+  { email: 'wawan.setiawan@siswa.sch.id',   password: 'siswa123', role: 'siswa', refId: '2024' },
+  { email: 'yuni.rahmawati@siswa.sch.id',   password: 'siswa123', role: 'siswa', refId: '2025' },
+  { email: 'zaki.ahmad@siswa.sch.id',       password: 'siswa123', role: 'siswa', refId: '2026' },
+  { email: 'bella.safitri@siswa.sch.id',    password: 'siswa123', role: 'siswa', refId: '2027' },
+  // Guru (password: guru123)
+  { email: 'siti.rahma@guru.sch.id',       password: 'guru123', role: 'guru_mapel', refId: 'G001' },
+  { email: 'ahmad.hidayat@guru.sch.id',    password: 'guru123', role: 'wali_kelas', refId: 'G002' },
+  { email: 'dwi.susanto@guru.sch.id',      password: 'guru123', role: 'guru_mapel', refId: 'G003' },
+  { email: 'rina.fitriani@guru.sch.id',    password: 'guru123', role: 'wali_kelas', refId: 'G004' },
+  { email: 'bambang.supriyono@guru.sch.id',password: 'guru123', role: 'wali_kelas', refId: 'G005' },
+  { email: 'kartika.dewi@guru.sch.id',     password: 'guru123', role: 'wali_kelas', refId: 'G006' },
+  { email: 'yasmin.nuraini@guru.sch.id',   password: 'guru123', role: 'wali_kelas', refId: 'G007' },
+  { email: 'fajar.hidayat@guru.sch.id',    password: 'guru123', role: 'guru_mapel', refId: 'G008' },
+  // Admin (password: admin123)
+  { email: 'dewi.sartika@admin.sch.id',    password: 'admin123', role: 'admin', refId: 'A001' },
+];
 
 // ---- API helpers ----
 const API = {
@@ -154,7 +194,12 @@ export async function refreshData() {
       if (data.presensiList) presensiList = data.presensiList;
       if (data.izinList) izinList = data.izinList;
       if (data.registeredAccounts) {
-        registeredAccounts = data.registeredAccounts.map((a: any) => ({ ...a, password: '' }));
+        const apiAccts = data.registeredAccounts as RegisteredAccount[];
+        for (const api of apiAccts) {
+          const existing = registeredAccounts.find(a => a.email === api.email);
+          if (existing) { existing.refId = api.refId; existing.role = api.role; }
+          else registeredAccounts.push({ ...api, password: '' });
+        }
       }
     }
   } catch {
@@ -194,13 +239,42 @@ export function getGuruByEmail(email: string): Guru | undefined {
   return guruList.find(g => g.email === email);
 }
 
+// ---- Local Auth helpers ----
+function authenticateLocal(email: string, password: string): User | null {
+  const a = registeredAccounts.find(ac => ac.email === email && ac.password === password);
+  if (!a) return null;
+  return resolveUser(a.role, a.refId);
+}
+
+function registerLocal(data: {
+  role: User['role']; email: string; password: string;
+  namaLengkap?: string; nis?: string; jenisKelamin?: string; idKelas?: string;
+  namaGuru?: string; namaAdmin?: string; username?: string;
+}): User | null {
+  if (registeredAccounts.some(a => a.email === data.email)) return null;
+  const role = data.role;
+  const refId = role === 'siswa' ? (data.nis || `REG${Date.now()}`)
+    : role === 'admin' ? `ADM${Date.now()}`
+    : `GRU${Date.now()}`;
+  registeredAccounts.push({ email: data.email, password: data.password, role, refId });
+  if (role === 'siswa') {
+    siswaList.push({ nis: refId, namaLengkap: data.namaLengkap || '', jenisKelamin: (data.jenisKelamin as any) || 'L', idKelas: data.idKelas || 'KLS01', email: data.email });
+  } else if (role === 'guru_mapel' || role === 'wali_kelas') {
+    const gr = role === 'guru_mapel' ? 'guru_mapel' : 'wali_kelas';
+    guruList.push({ idGuru: refId, namaGuru: data.namaGuru || '', email: data.email, role: gr as any, idKelas: data.idKelas || null });
+  } else if (role === 'admin') {
+    adminList.push({ idAdmin: refId, namaAdmin: data.namaAdmin || '', email: data.email, username: data.username || '' });
+  }
+  return resolveUser(role, refId);
+}
+
 // ---- Auth ----
 export async function authenticate(email: string, password: string): Promise<User | null> {
   try {
     const result = await API.post<{ user: any }>('/api/auth/login', { email, password });
     return result.user as User;
   } catch {
-    return null;
+    return authenticateLocal(email, password);
   }
 }
 
@@ -215,8 +289,10 @@ export async function registerAccount(data: {
     const user = await authenticate(data.email, data.password);
     if (user) await refreshData();
     return { user };
-  } catch (e: any) {
-    return { user: null, error: e.message || 'Registrasi gagal.' };
+  } catch {
+    const user = registerLocal(data);
+    if (!user) return { user: null, error: 'Email sudah terdaftar.' };
+    return { user };
   }
 }
 
@@ -229,21 +305,29 @@ export async function addPresensi(jadwalId: string, guruId: string, tanggal: str
   try {
     await API.post('/api/presensi', { jadwalId, guruId, tanggal, data });
     await refreshData();
-  } catch (e) {
-    console.error('Gagal menyimpan presensi', e);
+  } catch {
+    const siswa = Object.keys(data);
+    siswa.forEach(nis => {
+      if (!presensiList.some(p => p.idJadwal === jadwalId && p.nis === nis && p.tanggal === tanggal)) {
+        presensiList.push({
+          idPresensi: `PRS${Date.now()}${Math.random().toString(36).slice(2, 6)}`,
+          nis, idJadwal: jadwalId, idGuru: guruId, tanggal,
+          statusHadir: data[nis], statusManual: data[nis] ? 'hadir' : 'tidak_hadir',
+        });
+      }
+    });
   }
 }
 
 export async function togglePresensiStatus(idPresensi: string) {
   try {
     await API.patch(`/api/presensi/${idPresensi}`, {});
+  } catch {
     const p = presensiList.find(pr => pr.idPresensi === idPresensi);
     if (p) {
       p.statusHadir = !p.statusHadir;
       p.statusManual = p.statusHadir ? 'hadir' : 'tidak_hadir';
     }
-  } catch (e) {
-    console.error('Gagal toggle presensi', e);
   }
 }
 
@@ -255,18 +339,18 @@ export async function addIzin(nis: string, tanggal: string, jenis: 'sakit' | 'iz
       idIzin: result.idIzin, nis, tanggalIzin: tanggal, jenisIzin: jenis,
       keterangan, buktiPendukung: bukti, statusIzin: 'menunggu',
     });
-  } catch (e) {
-    console.error('Gagal menambah izin', e);
+  } catch {
+    const idIzin = `IZN${Date.now()}${Math.random().toString(36).slice(2, 6)}`;
+    izinList.push({ idIzin, nis, tanggalIzin: tanggal, jenisIzin: jenis, keterangan, buktiPendukung: bukti, statusIzin: 'menunggu' });
   }
 }
 
 export async function updateStatusIzin(idIzin: string, status: StatusIzin) {
   try {
     await API.patch(`/api/izin/${idIzin}`, { status });
+  } catch {
     const izin = izinList.find(i => i.idIzin === idIzin);
     if (izin) izin.statusIzin = status;
-  } catch (e) {
-    console.error('Gagal update status izin', e);
   }
 }
 
@@ -275,27 +359,26 @@ export async function addJadwal(data: Omit<JadwalPelajaran, 'idJadwal'>) {
   try {
     const result = await API.post<{ idJadwal: string }>('/api/jadwal', data);
     jadwalList.push({ ...data, idJadwal: result.idJadwal });
-  } catch (e) {
-    console.error('Gagal menambah jadwal', e);
+  } catch {
+    const idJadwal = `JDP${Date.now()}${Math.random().toString(36).slice(2, 6)}`;
+    jadwalList.push({ ...data, idJadwal });
   }
 }
 
 export async function updateJadwal(id: string, data: Partial<JadwalPelajaran>) {
   try {
     await API.patch(`/api/jadwal/${id}`, data);
+  } catch {
     const j = jadwalList.find(x => x.idJadwal === id);
     if (j) Object.assign(j, data);
-  } catch (e) {
-    console.error('Gagal mengupdate jadwal', e);
   }
 }
 
 export async function deleteJadwal(id: string) {
   try {
     await API.delete(`/api/jadwal/${id}`);
+  } catch {
     jadwalList = jadwalList.filter(j => j.idJadwal !== id);
-  } catch (e) {
-    console.error('Gagal menghapus jadwal', e);
   }
 }
 
@@ -303,10 +386,10 @@ export async function deleteJadwal(id: string) {
 export async function resetAllData() {
   try {
     await API.delete('/api/data');
-    window.location.reload();
-  } catch (e) {
-    console.error('Gagal mereset data', e);
+  } catch {
+    // noop
   }
+  window.location.reload();
 }
 
 // ---- Compatibility ----

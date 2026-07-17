@@ -1,84 +1,146 @@
-# Sipadu — Prototype Frontend
+# SIPADU - Sistem Informasi Presensi Siswa
 
-Sistem Informasi Presensi dan Izin Siswa — prototype berbasis Next.js dengan localStorage.
+## 📖 Deskripsi Singkat
 
-## Cara Menjalankan
+**SIPADU** adalah sistem informasi berbasis web yang menggantikan proses absensi manual di **SMP Negeri 4 Banguntapan**. Sistem ini dirancang menggunakan konsep **presensi per jam pelajaran**, sehingga setiap memasuki jam pelajaran baru seluruh siswa pada kelas tersebut secara otomatis akan berstatus **Hadir** (default hadir). Guru mata pelajaran kemudian hanya perlu melakukan pemeriksaan kelas dan mengubah status siswa yang benar-benar tidak hadir dengan melepas centang (uncheck) pada daftar presensi.
+
+Siswa memiliki akun yang digunakan **khusus untuk login**, **mengajukan izin ketidakhadiran**, dan **melihat riwayat kehadiran pribadi**. Siswa **tidak melakukan presensi secara mandiri**.
+
+Sistem secara otomatis menghasilkan dua jenis rekapitulasi kehadiran:
+
+### Rekap Bulanan Per Mata Pelajaran
+Menampilkan jumlah kehadiran dan ketidakhadiran siswa pada setiap mata pelajaran selama satu bulan. Rekap ini digunakan sebagai acuan penilaian kehadiran oleh guru mata pelajaran.
+
+### Rekap Harian (Persentase)
+Menghitung persentase kehadiran siswa berdasarkan jumlah jam pelajaran yang diikuti pada hari tersebut.
+
+- Jika persentase kehadiran **≥ 60%**, maka status hari tersebut adalah **Hadir**.
+- Jika persentase kehadiran **< 60%**, maka status hari tersebut adalah **Tidak Hadir**.
+- Status **Izin** dan **Sakit** pada suatu jam pelajaran tetap dihitung sebagai **Hadir** dalam perhitungan persentase.
+
+Seluruh sistem dikelola oleh **Admin (Guru BK)** yang memiliki akses penuh terhadap seluruh fitur aplikasi. SIPADU tidak menyediakan fitur notifikasi otomatis seperti push notification, email, maupun SMS.
+
+---
+
+# 👥 Anggota Tim
+
+| No | Nama | NIM |
+|----|----------------------------|-------------|
+| 1 | Lalu Atwi Suparman | 2300016074 |
+| 2 | Naedhiah Mokessa Della | 2400016020 |
+| 3 | Putri Miftakhul Jannah | 2400016021 |
+| 4 | Alvia Fatma Suttawati | 2400016058 |
+| 5 | Devi Puspa Rosalinda | 2400016060 |
+
+---
+
+# 📌 Pembagian Peran Anggota
+
+| Nama | Tugas |
+|------|-------|
+| **Lalu Atwi Suparman** | Backend fitur Registrasi dan Login |
+| **Naedhiah Mokessa Della** | Backend tampilan Guru Mata Pelajaran, Frontend tampilan Guru Mata Pelajaran, Penyusunan Desain Sistem |
+| **Putri Miftakhul Jannah** | Frontend dan Backend Siswa, Penyusunan Arsitektur Informasi |
+| **Alvia Fatma Suttawati** | Frontend dan Backend Admin, Penyusunan Folder Dokumentasi |
+| **Devi Puspa Rosalinda** | Frontend dan Backend Wali Kelas, Penyusunan Software Requirements Specification (SRS) |
+
+---
+
+# 🛠️ Teknologi yang Digunakan
+
+- HTML5
+- CSS3
+- JavaScript
+- PHP
+- MySQL
+- Bootstrap
+- XAMPP
+- Git
+- GitHub
+
+---
+
+# ▶️ Cara Menjalankan Aplikasi
+
+1. Clone repository GitHub.
 
 ```bash
-cd sipadu
-npm install
-npm run dev
+git clone https://github.com/username/sipadu.git
 ```
 
-Buka http://localhost:3000 di browser.
+2. Pindahkan folder proyek ke direktori `htdocs` pada XAMPP.
 
-## Akun Demo
+3. Jalankan **Apache** dan **MySQL** melalui XAMPP Control Panel.
 
-| Role | Email | Password |
-|------|-------|----------|
-| Siswa | budi@siswa.sch.id | password123 |
-| Guru Mapel | siti.rahma@guru.sch.id | password123 |
-| Wali Kelas | rina.fitriani@guru.sch.id | password123 |
-| Guru + Wali Kelas | ahmad.hidayat@guru.sch.id | password123 |
-| Admin (Guru BK) | dewi.sartika@admin.sch.id | password123 |
+4. Import database SIPADU ke MySQL melalui phpMyAdmin.
 
-## Fitur per Role
+5. Sesuaikan konfigurasi database pada file koneksi (misalnya `config.php`).
 
-**Siswa**
-- Melihat riwayat presensi dan izin
-- Mengajukan izin (sakit/izin/lainnya) dengan bukti
-- Dashboard ringkasan kehadiran
+6. Buka browser dan akses aplikasi melalui:
 
-**Guru Mapel**
-- Melihat jadwal mengajar hari ini
-- Mengisi presensi per jadwal (default semua hadir, centang untuk tidak hadir)
-- Edit presensi yang sudah tersimpan
+```text
+http://localhost/sipadu
+```
 
-**Wali Kelas**
-- Dashboard rekap kehadiran kelas binaan
-- Memantau rekap per siswa (detail per jam)
-- Memverifikasi pengajuan izin siswa
+---
 
-**Admin (Guru BK)**
-- CRUD jadwal pelajaran
-- Verifikasi izin semua siswa
-- Verifikasi presensi (ubah status Hadir/Tidak Hadir)
-- Lihat laporan rekap harian & bulanan dengan unduh CSV
-- Kelola hak akses (informasi read-only)
-- Reset data aplikasi
+# 🔑 Akun Demo
 
-## Teknologi
+Berikut adalah akun yang dapat digunakan untuk mencoba fitur sesuai dengan masing-masing peran.
 
-- Next.js 16 (App Router)
-- React 19
-- TypeScript
-- Tailwind CSS 4
-- localStorage (persistence)
-- lucide-react (icons)
+| Role | Email | Password | Keterangan |
+|------|-------|----------|------------|
+| **Siswa** | `ahmad.fauzi@siswa.sch.id` | `siswa123` | Contoh akun siswa (seluruh akun siswa menggunakan password yang sama). |
+| **Guru Mata Pelajaran (Matematika)** | `siti.rahma@guru.sch.id` | `guru123` | Guru Mata Pelajaran Matematika |
+| **Guru Mata Pelajaran (IPA)** | `dwi.susanto@guru.sch.id` | `guru123` | Guru Mata Pelajaran IPA |
+| **Guru Mata Pelajaran (Informatika)** | `fajar.hidayat@guru.sch.id` | `guru123` | Guru Mata Pelajaran Informatika |
+| **Wali Kelas VII A** | `ahmad.hidayat@guru.sch.id` | `guru123` | Wali Kelas VII A sekaligus Guru Mata Pelajaran |
+| **Wali Kelas VIII B** | `rina.fitriani@guru.sch.id` | `guru123` | Wali Kelas VIII B |
+| **Wali Kelas VII B** | `bambang.supriyono@guru.sch.id` | `guru123` | Wali Kelas VII B sekaligus Guru IPS |
+| **Wali Kelas VII C** | `yasmin.nuraini@guru.sch.id` | `guru123` | Wali Kelas VII C sekaligus Guru Seni Budaya |
+| **Wali Kelas IX A** | `kartika.dewi@guru.sch.id` | `guru123` | Wali Kelas IX A sekaligus Guru Bahasa Inggris |
+| **Admin (Guru BK)** | `dewi.sartika@admin.sch.id` | `admin123` | Administrator Sistem |
 
-## Struktur Routes
+### Struktur Kelas
 
-| Route | Akses | Halaman |
-|-------|-------|---------|
-| `/` | Publik | Redirect ke dashboard jika sudah login, atau ke login |
-| `/login` | Publik | Login + panel akun demo |
-| `/register` | Publik | Registrasi (siswa/guru/admin) |
-| `/dashboard` | Semua | Dashboard sesuai role |
-| `/presensi` | Guru | Isi presensi per jadwal |
-| `/izin` | Semua | Ajukan & lihat riwayat izin |
-| `/verifikasi-izin` | Wali_kelas, admin | Setujui/tolak izin |
-| `/kehadiran` | Guru, admin | Data kehadiran siswa |
-| `/laporan` | Wali_kelas, admin | Rekap harian & bulanan |
-| `/jadwal` | Admin | CRUD jadwal pelajaran |
-| `/pantau-rekap` | Wali_kelas | Rekap per siswa detail |
-| `/riwayat` | Siswa | Riwayat presensi & izin |
-| `/hak-akses` | Admin | Informasi hak akses per role |
+Sistem menggunakan **9 kelas**, dengan masing-masing kelas berisi **3 siswa**, sehingga total terdapat **27 akun siswa**.
 
-## Mereset Data
+- VII A (KLS01)
+- VII B (KLS02)
+- VII C (KLS03)
+- VIII A (KLS04)
+- VIII B (KLS05)
+- VIII C (KLS06)
+- IX A (KLS07)
+- IX B (KLS08)
+- IX C (KLS09)
 
-1. **Via tombol**: Login sebagai admin → dashboard → bagian "Reset Data"
-2. **Via DevTools**: Buka DevTools (F12) → tab Application → Local Storage → hapus key `sipadu_data` → refresh halaman
+---
 
-## Catatan Implementasi
+# 🌐 URL Aplikasi yang Telah Di-deploy
 
-Lihat `IMPLEMENTATION_NOTES.md` untuk detail konflik resolusi, gap, dan keputusan arsitektur.
+> Tambahkan URL deployment aplikasi di sini.
+
+Contoh:
+
+```text
+https://sipadu.example.com
+```
+
+---
+
+# 📂 URL Repository GitHub
+
+> Tambahkan URL repository GitHub di sini.
+
+Contoh:
+
+```text
+https://github.com/username/sipadu
+```
+
+---
+
+# 📝 Catatan
+
+Repositori proyek ini dikelola dan di-*push* melalui **satu akun GitHub** untuk menghindari konflik dan error yang sebelumnya terjadi saat proses kolaborasi menggunakan beberapa akun. Penggunaan satu akun hanya bertujuan untuk menjaga stabilitas proses pengembangan dan mencegah terulangnya kendala teknis. Meskipun demikian, pengembangan sistem tetap dilakukan secara kolaboratif sesuai dengan pembagian tugas masing-masing anggota tim yang telah dijelaskan di atas.

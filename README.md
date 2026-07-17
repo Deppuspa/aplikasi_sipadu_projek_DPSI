@@ -124,7 +124,7 @@ Sistem menggunakan **9 kelas**, dengan masing-masing kelas berisi **3 siswa**, s
 Contoh:
 
 ```text
-https://aplikasisipaduprojekdpsi-versel.vercel.app/login
+https://aplikasisipaduprojekdpsiv2.vercel.app/login
 ```
 
 ---

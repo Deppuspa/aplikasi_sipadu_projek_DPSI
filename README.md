@@ -1,4 +1,4 @@
-# SIPADU - Sistem Informasi Presensi Siswa
+# SIPADU - Presensi Siswa SMP N 4 BANGUNTAPAN
 
 ## 📖 Deskripsi Singkat
 

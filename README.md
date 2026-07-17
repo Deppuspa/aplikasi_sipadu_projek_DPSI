@@ -143,4 +143,42 @@ https://github.com/Deppuspa/aplikasi_sipadu_projek_DPSI.git
 
 # 📝 Catatan
 
-Repositori proyek ini dikelola dan di-*push* melalui **satu akun GitHub** untuk menghindari konflik dan error yang sebelumnya terjadi saat proses kolaborasi menggunakan beberapa akun. Penggunaan satu akun hanya bertujuan untuk menjaga stabilitas proses pengembangan dan mencegah terulangnya kendala teknis. Meskipun demikian, pengembangan sistem tetap dilakukan secara kolaboratif sesuai dengan pembagian tugas masing-masing anggota tim yang telah dijelaskan di atas.
+Repositori proyek ini dikelola dan di-*push* melalui **satu akun GitHub** untuk menghindari konflik dan error yang sebelumnya terjadi saat proses kolaborasi menggunakan beberapa akun. Penggunaan satu akun hanya bertujuan untuk menjaga stabilitas proses pengembangan dan mencegah terulangnya kendala teknis. Meskipun demikian, pengembangan sistem tetap dilakukan secara kolaboratif sesuai dengan pembagian tugas masing-masing anggota tim yang telah dijelaskan di atas. 
+
+# Arsitektur Proyek
+
+Proyek SIPADU ini dibangun menggunakan **Next.js (App Router)** dengan pendekatan
+**fullstack**, artinya backend dan frontend tidak dipisah menjadi folder atau
+repository yang berbeda, melainkan menyatu dalam satu struktur project Next.js.
+Hal ini merupakan konvensi standar Next.js, di mana frontend dan backend
+berjalan dalam satu aplikasi yang sama.
+
+Pembagian tanggung jawab tiap bagian adalah sebagai berikut:
+
+# Frontend (Tampilan/UI)
+Bertanggung jawab menampilkan halaman dan interaksi pengguna.
+- `src/app/(dashboard)/` — halaman dashboard, jadwal, kehadiran, izin, laporan, dll
+- `src/app/login/` — halaman login
+- `src/app/register/` — halaman registrasi
+- `src/components/` — komponen UI yang dipakai berulang (contoh: sidebar)
+
+# Backend (Logika & Data)
+Bertanggung jawab memproses data dan menghubungkan aplikasi ke database.
+- `src/app/api/` — API routes (endpoint backend Next.js)
+- `src/lib/` — logika bisnis, koneksi ke database, dan helper function
+- `sipadu.db` — file database SQLite tempat semua data (siswa, guru, presensi,
+  izin, jadwal) disimpan
+
+# Dokumentasi
+- `docs/` — berisi seluruh dokumen pendukung proyek: data model, arsitektur
+  sistem, alur pengguna (user flow), SRS, test case, dan test plan
+
+# Mengapa Backend dan Frontend Tidak Dipisah Secara Fisik?
+Next.js App Router mewajibkan folder `api` berada di dalam `src/app` agar
+sistem routing backend-nya berfungsi. Karena itu, backend dan frontend memang
+didesain untuk menyatu dalam satu struktur folder, bukan dipisah menjadi
+folder `backend/` dan `frontend/` seperti pada proyek dengan backend dan
+frontend terpisah (contoh: Express.js + React). Meski begitu, syarat "backend
+dan frontend berada dalam satu repository" tetap terpenuhi, karena seluruh
+kode—baik logika tampilan maupun logika data—berada dalam satu repository
+yang sama.

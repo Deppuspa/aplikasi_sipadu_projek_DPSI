@@ -124,7 +124,7 @@ Sistem menggunakan **9 kelas**, dengan masing-masing kelas berisi **3 siswa**, s
 Contoh:
 
 ```text
-https://sipadu.example.com
+https://aplikasisipaduprojekdpsi-versel.vercel.app/login
 ```
 
 ---
@@ -136,7 +136,7 @@ https://sipadu.example.com
 Contoh:
 
 ```text
-https://github.com/username/sipadu
+https://github.com/Deppuspa/aplikasi_sipadu_projek_DPSI.git
 ```
 
 ---
